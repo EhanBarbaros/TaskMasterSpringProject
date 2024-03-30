@@ -1,0 +1,169 @@
+@keyframes backgroundAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(-45deg, #ffffff, #52adc4, #1d6fe9, #31f46f);
+    background-size: 400% 400%;
+    animation: backgroundAnimation 15s ease infinite;
+}
+
+.navbar-custom {
+    background-color: #004d99;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav .nav-link {
+    color: #ffffff;
+}
+
+.nav-item:hover {
+    background-color: #deeef9;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.navbar-nav .nav-link:hover, .navbar-nav .nav-link:focus {
+    transform: scale(1.1);
+    color: #3c4ed1;
+}
+
+.navbar-custom .navbar-nav .nav-link {
+    transition: all 0.3s ease;
+}
+
+.navbar-custom .navbar-nav .nav-link:hover, .navbar-custom .navbar-nav .nav-link:focus {
+    transform: scale(1.1) translateY(-2px);
+}
+
+.navbar-brand img {
+    height: 50px;
+    width: auto;
+}
+
+.login-container {
+    padding: 20px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.login-card {
+    border-radius: 20px;
+    background-color: #0188ff00;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.login-header {
+    background-color: #d1e0e5;
+    border-radius: 15px;
+    padding: 10px;
+    text-align: center;
+    margin-bottom: 30px;
+    color: #003366;
+    font-size: 24px;
+}
+
+.login-button {
+    background-color: #c5dbf1;
+    color: rgb(52, 39, 171);
+    border: none;
+    padding: 10px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #32629351;
+}
+
+.login-input, .login-button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+}
+
+#anasayfa {
+    background: #FFFFFF;
+    animation: none; 
+}
+
+.img-thumbnail.rounded-circle {
+    border-radius: 50%;
+    background: linear-gradient(140deg, #dd99ff, #cc88ff);
+}
+
+.list-group-item-action {
+    border: 1px solid #ccc;
+    margin-bottom: -1px; 
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.btn-lg {
+    padding: .5rem 1rem; 
+    font-size: 1.25rem; 
+    line-height: 1.5;
+    border-radius: .3rem; 
+}
+
+.btn-block {
+    display: block;
+    width: 100%; 
+}
+
+.team-list-scrollable {
+    max-height: 500px;
+    overflow-y: auto; 
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    height: 500px; 
+}
+
+.button-container .btn {
+    padding: .75rem 1.25rem; /* Düğme iç dolgusu */
+    font-size: 1rem; /* Yazı tipi boyutu */
+    line-height: 1.5; /* Satır yüksekliği */
+    border-radius: .25rem; /* Kenar yuvarlaklığı */
+    width: 100%; /* Genişlik */
+    box-sizing: border-box; /* Box modeli */
+}
+
+.modal-content.rounded-lg {
+    border-radius: 1rem;
+}
+
+
+.toplantialert{
+    background-color: rgb(102, 115, 232);
+    color: white;
+}
