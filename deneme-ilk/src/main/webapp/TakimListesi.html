@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Takımlar</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="stil.css" rel="stylesheet"> <!-- stil.css dosyasının yolu -->
+</head>
+<body>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8">
+            <h2 class="text-center mb-3">Takımlar</h2>
+            <div class="list-group team-list-scrollable">
+                <a href="#" class="list-group-item list-group-item-action">Takım 1</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 2</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 3</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 4</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 5</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 6</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 1</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 2</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 3</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 4</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 5</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 6</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 1</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 2</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 3</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 4</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 5</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 6</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 1</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 2</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 3</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 4</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 5</a>
+                <a href="#" class="list-group-item list-group-item-action">Takım 6</a>
+            </div>
+        </div>
+        <div class="col-md-4 button-container">
+            <div class="mb-3">
+                <button type="button" class="btn btn-success btn-lg btn-block">Takıma Katıl</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#teamCreateModal">Yeni Takım Oluştur</button>
+            </div>
+        </div>
+        <!-- Yeni Takım Oluştur Modal -->
+<div class="modal fade" id="teamCreateModal" tabindex="-1" role="dialog" aria-labelledby="teamCreateModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="teamCreateModalLabel">Takım Oluştur</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="teamCreateForm">
+            <div class="form-group">
+              <label for="teamName">Takım Adı</label>
+              <input type="text" class="form-control" id="teamName" placeholder="Takım Adı">
+            </div>
+            <div class="form-group">
+              <label for="teamMemberCount">Takım Üye Sayısı</label>
+              <input type="number" class="form-control" id="teamMemberCount" placeholder="Takım Üye Sayısı">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+          <button type="submit" form="teamCreateForm" class="btn btn-primary">Takımı Oluştur</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<script>
+    $(document).ready(function(){
+  $('#teamCreateModal').on('shown.bs.modal', function () {
+    $('#teamName').focus();
+  });
+});
+</script>
+</body>
+</html>
+
+
+
+
