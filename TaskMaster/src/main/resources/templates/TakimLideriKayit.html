@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Takım Lider Kayıt Sayfası</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/stil.css">
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card mt-5">
+                <div class="card-header text-center">
+                    Takım Lideri Olarak Kayıt Ol
+                </div>
+                <div class="card-body">
+                    <form id="userForm">
+                        <div class="form-group">
+                            <label for="name">Ad</label>
+                            <input type="text" id="name" name="name" placeholder="Ad" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="surname">Soyad</label>
+                            <input type="text" id="surname" name="surname" placeholder="Soyad" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="username">Kullanıcı Adı</label>
+                            <input type="text" id="username" name="username" placeholder="Kullanıcı Adı" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Şifre</label>
+                            <input type="password" id="password" name="password" placeholder="Şifre" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block">Kayıt Ol</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+    document.getElementById('userForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Formun varsayılan gönderme işlemini engelle
+    
+        // Form verilerini topla
+        var userData = {
+            kullanici: {
+                name: document.getElementById('name').value,
+                surname: document.getElementById('surname').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            }
+        };
+    
+        // XMLHttpRequest nesnesi oluştur
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:8080/takimliderleri", true);
+        xhr.setRequestHeader("Content-Type", "application/json");
+    
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                // İsteğin başarılı olduğuna dair bir işlem yap
+                console.log(xhr.responseText); // Backend'den gelen cevabı konsolda göster
+                // Başarılı kayıt sonrası kullanıcıyı bilgilendir veya başka bir sayfaya yönlendir
+            } else if (xhr.readyState === 4) {
+                // Hata durumunda kullanıcıyı bilgilendir
+                console.error(xhr.statusText);
+            }
+        };
+    
+        // Veriyi JSON olarak gönder
+        xhr.send(JSON.stringify(userData));
+    });
+    
+        </script>
+</body>
+</html>
