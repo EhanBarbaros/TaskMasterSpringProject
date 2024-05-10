@@ -31,6 +31,7 @@ public class HomeController {
 		    UsersEntity user = getCurrentUser(session);
 		    if (user != null) {
 		        model.addAttribute("user", user); // Kullanıcı bilgisini modele ekleyin
+		        model.addAttribute("isTeamLeader", "TakimLideri".equals(user.getRutbesi()));
 
 		        if (user.getTakimId() != null && user.getTakimId() > 0) {
 		            Optional<TakimEntity> team = takimService.findTakimByTakimId(user.getTakimId());

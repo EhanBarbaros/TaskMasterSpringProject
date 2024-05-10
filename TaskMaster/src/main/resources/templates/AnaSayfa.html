@@ -32,10 +32,10 @@
             <li class="nav-item">  
                 <a class="nav-link" href="#hizmetler">Görevlerim</a>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" th:if="${isTeamLeader}">
                 <a class="nav-link" data-toggle="modal" data-target="#meetingStartModal">Toplantı Başlat</a>
             </li>
-			<li class="nav-item">
+			<li class="nav-item" th:if="${isTeamLeader}">
 			              <a class="nav-link btn" data-toggle="modal" data-target="#userOperationsModal">Kullanıcı İşlemleri</a>
 			</li>
 			
@@ -206,7 +206,7 @@
 </div>
 
 
-<!--Live Chatin geleceği yer-->
+<!-- Mevcut Kullanıcılar Listesi -->
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-8">
@@ -232,7 +232,7 @@
             <div class="card">
                 <div class="card-header">Mevcut Kullanıcılar</div>
                 <div class="card-body">
-                    <ul id="userList" class="list-group">
+                    <ul id="userList" class="list-group team-list-scrollable">
                         <!-- Kullanıcılar burada listelenecek -->
                     </ul>
                 </div>
@@ -446,6 +446,51 @@ document.getElementById('meetingForm').addEventListener('submit', function(event
 	        });
 	});
 
+</script>
+
+
+<script>
+	$(document).ready(function(){
+	fetch('/kullanicilar/team-users')
+	        .then(response => response.json())
+	        .then(users => {
+	            console.log(users); // Gelen verileri kontrol edin
+	            const userList = document.getElementById('userList');
+	            userList.innerHTML = ''; // Listeyi temizle
+	
+	            const teamLeader = users.filter(user => user.rutbesi === 'TakimLideri');
+	            const engineers = users.filter(user => user.rutbesi === 'Mühendis');
+	            const interns = users.filter(user => user.rutbesi === 'Stajer');
+	
+	            const allUsers = [...teamLeader, ...engineers, ...interns];
+	
+	            allUsers.forEach(user => {
+	                const li = document.createElement('li');
+	                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+	                li.innerHTML = `
+	                    <span>${user.username}</span>
+	                    <span class="badge badge-pill ${getBadgeClass(user.rutbesi)}">${user.rutbesi}</span>
+	                `;
+	                userList.appendChild(li);
+	            });
+	        })
+	        .catch(error => {
+	            console.error('Hata:', error);
+	        });
+	
+	    function getBadgeClass(rutbesi) {
+	        switch(rutbesi) {
+	            case 'TakimLideri':
+	                return 'badge-danger';
+	            case 'Mühendis':
+	                return 'badge-warning';
+	            case 'Stajer':
+	                return 'badge-info';
+	            default:
+	                return 'badge-secondary';
+	        }
+	    }
+	});
 </script>
 
 

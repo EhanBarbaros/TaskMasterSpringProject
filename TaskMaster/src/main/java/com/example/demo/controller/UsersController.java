@@ -44,9 +44,13 @@ public class UsersController {
     }
     
     @GetMapping("/team-users")
-    public ResponseEntity<List<UsersEntity>> getUsersByTeamId(@RequestParam Long takimId) {
-        List<UsersEntity> users = usersService.findByTakimId(takimId);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<List<UsersEntity>> getUsersByTeamId(HttpSession session) {
+        UsersEntity currentUser = (UsersEntity) session.getAttribute("user");
+        if (currentUser != null) {
+            List<UsersEntity> users = usersService.findByTakimId(currentUser.getTakimId());
+            return ResponseEntity.ok(users);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
     
     @PostMapping("/add")

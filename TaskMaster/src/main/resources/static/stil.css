@@ -241,3 +241,41 @@ html {
         }
 
 
+
+
+
+
+
+
+
+
+
+/*Mevcut kullanıcılar listesi*/
+.team-list-scrollable {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.list-group-item {
+    border: 1px solid #ccc;
+    margin-bottom: -1px;
+}
+
+.badge-danger {
+    background-color: #dc3545;
+}
+
+.badge-warning {
+    background-color: #ffc107;
+}
+
+.badge-info {
+    background-color: #17a2b8;
+}
+
+.badge-pill {
+    padding: 0.5em 0.75em;
+    border-radius: 10px;
+    color: #fff;
+    font-size: 0.875em;
+}
