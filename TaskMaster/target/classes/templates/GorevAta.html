@@ -68,10 +68,12 @@
             <label for="taskDescription">Görev Açıklaması</label>
             <textarea class="form-control" id="taskDescription" name="icerik" rows="3" placeholder="Görev Açıklaması Giriniz"></textarea>
         </div>
-        <div class="form-group">
-            <label for="assignedTo">Görevi Atayacağınız Kişinin Kullanıcı Adı</label>
-            <input type="text" class="form-control" id="assignedTo" name="assignedToUsername" placeholder="Kullanıcı Adı Giriniz">
-        </div>
+		<div class="form-group">
+		            <label for="assignedTo">Görevi Atayacağınız Kişinin Kullanıcı Adı</label>
+		            <select class="form-control" id="assignedTo" name="assignedToUsername">
+		                <!-- Kullanıcılar burada listelenecek -->
+		            </select>
+		        </div>
         <button type="submit" class="btn btn-primary btn-block">Görevi Ata</button>
     </form>
 </div>
@@ -79,5 +81,28 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>$(document).ready(function() {
+       // Kullanıcıları yükleme işlemi
+       fetch('/kullanicilar/team-users')
+           .then(response => response.json())
+           .then(users => {
+               const assignedToSelect = document.getElementById('assignedTo');
+               assignedToSelect.innerHTML = ''; // Seçenekleri temizle
+
+               if (Array.isArray(users)) {
+                   users.forEach(user => {
+                       const option = document.createElement('option');
+                       option.value = user.username;
+                       option.textContent = user.username;
+                       assignedToSelect.appendChild(option);
+                   });
+               } else {
+                   console.error('Beklenmedik veri formatı:', users);
+               }
+           })
+           .catch(error => {
+               console.error('Hata:', error);
+           });
+   });   </script>
 </body>
 </html>

@@ -108,4 +108,14 @@ public class UsersController {
             return ResponseEntity.badRequest().body("Kullanıcı bu takımın üyesi değil.");
         }
     }
+    
+    @GetMapping("/team")
+    public ResponseEntity<List<UsersEntity>> getTeamMembers(HttpSession session) {
+        UsersEntity currentUser = (UsersEntity) session.getAttribute("user");
+        if (currentUser != null) {
+            List<UsersEntity> users = usersService.findByTakimId(currentUser.getTakimId());
+            return ResponseEntity.ok(users);
+        }
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+    }
 }
