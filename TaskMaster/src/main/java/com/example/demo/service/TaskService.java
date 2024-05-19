@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,5 +78,21 @@ public class TaskService {
             return dto;
         }).collect(Collectors.toList());
     }
+    
+    /*
+    public void updateTaskAndFeedbackStatus(Long taskId) {
+        Optional<TaskEntity> taskOpt = taskRepository.findById(taskId);
+        if (taskOpt.isPresent()) {
+            TaskEntity task = taskOpt.get();
+            task.setTamamlandi(true);
+            taskRepository.save(task);
+
+            List<FeedbackEntity> feedbacks = feedbackRepository.findByTaskId(taskId);
+            for (FeedbackEntity feedback : feedbacks) {
+                feedback.setApproved(true);
+                feedbackRepository.save(feedback);
+            }
+        }
+    }*/
     
 }

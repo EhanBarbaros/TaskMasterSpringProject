@@ -93,6 +93,14 @@ public class TaskController {
         List<TaskDTO> activeTasks = taskService.getActiveTasksForUser(userId);
         return ResponseEntity.ok(activeTasks);
     }
+    
+    /*
+    @PostMapping("/approve/{taskId}")
+    public ResponseEntity<?> approveTask(@PathVariable Long taskId) {
+        taskService.updateTaskAndFeedbackStatus(taskId);
+        return ResponseEntity.ok("Görev ve geri bildirimler başarıyla onaylandı.");
+    }*/
+
    
     
 }
