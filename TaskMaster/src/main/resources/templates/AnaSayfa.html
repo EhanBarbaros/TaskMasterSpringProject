@@ -24,13 +24,13 @@
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
             <li class="nav-item">
-                <a class="nav-link" href="#anasayfa">Ana Sayfa</a>
+                <a class="nav-link" href="/AnaSayfa">Ana Sayfa</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#hakkimizda">Görev Ata</a>
+                <a class="nav-link" href="/GorevAta">Görev Ata</a>
             </li>
             <li class="nav-item">  
-                <a class="nav-link" href="#hizmetler">Görevlerim</a>
+                <a class="nav-link" href="/Gorevlerim">Görevlerim</a>
             </li>
             <li class="nav-item" th:if="${isTeamLeader}">
                 <a class="nav-link" data-toggle="modal" data-target="#meetingStartModal">Toplantı Başlat</a>
@@ -297,7 +297,7 @@ document.getElementById('meetingForm').addEventListener('submit', function(event
 
 
 <script>
-	// Live Chat
+	 //Live Chat  
 	    var stompClient = null;
 	
 	    function connect() {
@@ -342,7 +342,6 @@ document.getElementById('meetingForm').addEventListener('submit', function(event
 	
 	    window.addEventListener('load', connect);
 	    window.addEventListener('beforeunload', disconnect);
-	
 </script>
 
 

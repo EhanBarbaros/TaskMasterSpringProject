@@ -110,6 +110,33 @@ public class HomeController {
 	        model.addAttribute("teams", teams);
 	        return "TakimListesi";
 	    }
+	    
+	    @GetMapping("/GorevAta")
+	    public String showAssignTaskPage(HttpSession session, Model model) {
+	        UsersEntity user = getCurrentUser(session);
+	        if (user == null) {
+	            return "redirect:/login";
+	        }
+	        model.addAttribute("user", user);
+	        model.addAttribute("isTeamLeader", "TakimLideri".equals(user.getRutbesi()));
+	        model.addAttribute("isEngineer", "Mühendis".equals(user.getRutbesi()));
+	        return "GorevAta";
+	    }
+
+	    @GetMapping("/Gorevlerim")
+	    public String showMyTasksPage(Model model, HttpSession session) {
+	        UsersEntity user = (UsersEntity) session.getAttribute("user");
+
+	        if (user == null) {
+	            return "redirect:/login";
+	        }
+
+	        model.addAttribute("user", user);
+	        model.addAttribute("isIntern", user.getRutbesi().equals("Stajer"));
+	        model.addAttribute("isTeamLeader", user.getRutbesi().equals("TakimLideri"));
+
+	        return "Gorevlerim";
+	    }
 
 
 }
