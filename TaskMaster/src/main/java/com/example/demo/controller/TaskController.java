@@ -93,7 +93,6 @@ public class TaskController {
         List<TaskDTO> activeTasks = taskService.getActiveTasksForUser(userId);
         return ResponseEntity.ok(activeTasks);
     }
-    
    
     
 }

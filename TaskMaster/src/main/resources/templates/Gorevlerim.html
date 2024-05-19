@@ -6,10 +6,32 @@
     <title>Görevlerim</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="/stil.css"> 
+    <link rel="stylesheet" href="/stil.css">
+    <style>
+        .modal-lg-custom {
+            max-width: 80% !important;
+        }
+        .modal-dialog-centered {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: calc(100% - 3.5rem);
+            bottom: 20%;
+        }
+        .modal-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .modal-footer .info-left {
+            float: left;
+        }
+        .modal-footer .info-right {
+            float: right;
+        }
+    </style>
 </head>
 <body id="anasayfa">
-
     <nav class="navbar navbar-expand-lg navbar-custom">
         <a class="navbar-brand" href="#">
             <img src="/resimler/logo1.png" alt="TM Logo"> TaskMaster
@@ -92,139 +114,251 @@
     <!-- Görev Detayları Modal -->
     <div class="modal fade" id="taskDetailsModal" tabindex="-1" role="dialog" aria-labelledby="taskDetailsModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
-			<div class="modal-content">
-			                <div class="modal-header">
-			                    <h5 class="modal-title" id="taskDetailsTitle">Görev Başlığı</h5>
-			                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			                        <span aria-hidden="true">&times;</span>
-			                    </button>
-			                </div>
-			                <div class="modal-body">
-			                    <p id="taskDetailsContent">Görev İçeriği</p>
-			                </div>
-			                <div class="modal-footer">
-			                    <div class="d-flex justify-content-between w-100">
-			                        <span><strong>Gönderen:</strong> <span id="taskDetailsSender"></span></span>
-			                        <button type="button" class="btn btn-primary" id="completeTaskButton">Görevi Tamamla</button>
-			                    </div>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			
-			    <!-- Geri Bildirim Modal -->
-			    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
-			        <div class="modal-dialog" role="document">
-			            <div class="modal-content">
-			                <div class="modal-header">
-			                    <h5 class="modal-title" id="feedbackModalLabel">Görev Geri Bildirimi</h5>
-			                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-			                        <span aria-hidden="true">&times;</span>
-			                    </button>
-			                </div>
-			                <div class="modal-body">
-			                    <div class="form-group">
-			                        <label for="feedbackContent">Geri Bildirim</label>
-			                        <textarea class="form-control" id="feedbackContent" rows="3"></textarea>
-			                    </div>
-			                </div>
-			                <div class="modal-footer">
-			                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
-			                    <button type="button" class="btn btn-success" id="sendFeedbackButton">Geri Bildirimi Gönder</button>
-			                </div>
-			            </div>
-			        </div>
-			    </div>
-			
-			    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-			    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-			    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-			
-			    <script>
-			        function showTaskDetails(taskElement) {
-			            var taskId = taskElement.getAttribute('data-task-id');
-			            var taskTitle = taskElement.getAttribute('data-task-title');
-			            var taskContent = taskElement.getAttribute('data-task-content');
-			            var taskSender = taskElement.getAttribute('data-task-sender');
-			
-			            document.getElementById('taskDetailsTitle').textContent = taskTitle;
-			            document.getElementById('taskDetailsContent').textContent = taskContent;
-			            document.getElementById('taskDetailsSender').textContent = taskSender;
-			            document.getElementById('taskDetailsModal').setAttribute('data-task-id', taskId); // Modal üzerine task ID'yi set edin
-			
-			            $('#taskDetailsModal').modal('show');
-			        }
-			
-			        $(document).ready(function() {
-			            fetch('/tasks/active')
-			                .then(response => response.json())
-			                .then(tasks => {
-			                    console.log(tasks); // Gelen verileri kontrol edin
-			                    const activeTasksList = document.getElementById('activeTasksList');
-			                    activeTasksList.innerHTML = ''; // Listeyi temizle
-			
-			                    tasks.forEach(task => {
-			                        const li = document.createElement('li');
-			                        li.className = 'list-group-item task-item';
-			                        li.setAttribute('data-task-id', task.taskId); // Task ID'yi data attribute olarak ekleyin
-			                        li.setAttribute('data-task-title', task.title);
-			                        li.setAttribute('data-task-content', task.icerik);
-			                        li.setAttribute('data-task-sender', task.taskVerenKullaniciUsername);
-			                        li.innerHTML = `
-			                            <div>
-			                                <h5 class="task-title">${task.title}</h5>
-			                                <div class="task-details">
-			                                    <span><strong>Gönderen:</strong> ${task.taskVerenKullaniciUsername}</span>
-			                                    <span><strong>Tarih ve Saat:</strong> ${new Date(task.createDate).toLocaleString()}</span>
-			                                </div>
-			                            </div>
-			                        `;
-			                        li.addEventListener('click', function() {
-			                            showTaskDetails(this);
-			                        });
-			                        activeTasksList.appendChild(li);
-			                    });
-			                })
-			                .catch(error => {
-			                    console.error('Hata:', error);
-			                });
-			
-			            document.getElementById('completeTaskButton').addEventListener('click', function() {
-			                $('#taskDetailsModal').modal('hide');
-			                $('#feedbackModal').modal('show');
-			            });
-			
-						document.getElementById('sendFeedbackButton').addEventListener('click', function() {
-						    var feedbackContent = document.getElementById('feedbackContent').value;
-						    var taskId = document.getElementById('taskDetailsModal').getAttribute('data-task-id'); // Modal üzerindeki task ID'yi alın
-						
-						    if (!taskId) {
-						        console.error('Task ID is null or undefined');
-						        return;
-						    }
-						
-						    fetch('/feedback/submit', {
-						        method: 'POST',
-						        headers: {
-						            'Content-Type': 'application/json'
-						        },
-						        body: JSON.stringify({
-						            taskId: taskId,
-						            feedbackContent: feedbackContent
-						        })
-						    })
-						    .then(response => response.json())
-						    .then(data => {
-						        console.log(data);
-						        $('#feedbackModal').modal('hide');
-						        // Geri bildirimin başarılı bir şekilde gönderildiğini bildirin
-						    })
-						    .catch(error => {
-						        console.error('Hata:', error);
-						    });
-						});
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="taskDetailsTitle">Görev Başlığı</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p id="taskDetailsContent">Görev İçeriği</p>
+                </div>
+                <div class="modal-footer">
+                    <div class="d-flex justify-content-between w-100">
+                        <span><strong>Gönderen:</strong> <span id="taskDetailsSender"></span></span>
+                        <button type="button" class="btn btn-primary" id="completeTaskButton">Görevi Tamamla</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-			        });
-			    </script>
-			</body>
-			</html>
+    <!-- Geri Bildirim Modal -->
+    <div class="modal fade" id="feedbackModal" tabindex="-1" role="dialog" aria-labelledby="feedbackModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="feedbackModalLabel">Görev Geri Bildirimi</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="feedbackContent">Geri Bildirim</label>
+                        <textarea class="form-control" id="feedbackContent" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Kapat</button>
+                    <button type="button" class="btn btn-success" id="sendFeedbackButton">Geri Bildirimi Gönder</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+	<!-- Geri Bildirim Detayları Modal -->
+	<div class="modal fade" id="feedbackDetailsModal" tabindex="-1" role="dialog" aria-labelledby="feedbackDetailsModalLabel" aria-hidden="true">
+	    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+	        <div class="modal-content">
+	            <div class="modal-header">
+	                <h5 class="modal-title" id="feedbackDetailsTitle">Geri Bildirim Detayları</h5>
+	                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	                    <span aria-hidden="true">&times;</span>
+	                </button>
+	            </div>
+	            <div class="modal-body">
+	                <p id="feedbackTaskTitle">Görev Başlığı</p>
+	                <p id="feedbackTaskContent">Görev İçeriği</p>
+	                <p id="feedbackDetailsContent">Geri Bildirim İçeriği</p>
+	            </div>
+	            <div class="modal-footer">
+	                <div class="d-flex justify-content-between w-100">
+	                    <span class="info-left"><strong>Gönderen:</strong> <span id="feedbackSender"></span></span>
+	                    <span class="info-right"><strong>Tarih ve Saat:</strong> <span id="feedbackDateTime"></span></span>
+	                </div>
+	                <button type="button" class="btn btn-primary mx-auto mt-2" id="approveFeedbackButton">Görevi Onayla</button>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+    <script>
+        function showTaskDetails(taskElement) {
+            var taskId = taskElement.getAttribute('data-task-id');
+            var taskTitle = taskElement.getAttribute('data-task-title');
+            var taskContent = taskElement.getAttribute('data-task-content');
+            var taskSender = taskElement.getAttribute('data-task-sender');
+
+            document.getElementById('taskDetailsTitle').textContent = taskTitle;
+            document.getElementById('taskDetailsContent').textContent = taskContent;
+            document.getElementById('taskDetailsSender').textContent = taskSender;
+            document.getElementById('taskDetailsModal').setAttribute('data-task-id', taskId); // Modal üzerine task ID'yi set edin
+
+            $('#taskDetailsModal').modal('show');
+        }
+
+        $(document).ready(function() {
+            fetch('/tasks/active')
+                .then(response => response.json())
+                .then(tasks => {
+                    console.log(tasks); // Gelen verileri kontrol edin
+                    const activeTasksList = document.getElementById('activeTasksList');
+                    activeTasksList.innerHTML = ''; // Listeyi temizle
+
+                    tasks.forEach(task => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item task-item';
+                        li.setAttribute('data-task-id', task.taskId); // Task ID'yi data attribute olarak ekleyin
+                        li.setAttribute('data-task-title', task.title);
+                        li.setAttribute('data-task-content', task.icerik);
+                        li.setAttribute('data-task-sender', task.taskVerenKullaniciUsername);
+                        li.innerHTML = `
+                            <div>
+                                <h5 class="task-title">${task.title}</h5>
+                                <div class="task-details">
+                                    <span><strong>Gönderen:</strong> ${task.taskVerenKullaniciUsername}</span>
+                                    <span><strong>Tarih ve Saat:</strong> ${new Date(task.createDate).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        `;
+                        li.addEventListener('click', function() {
+                            showTaskDetails(this);
+                        });
+                        activeTasksList.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+
+            document.getElementById('completeTaskButton').addEventListener('click', function() {
+                $('#taskDetailsModal').modal('hide');
+                $('#feedbackModal').modal('show');
+            });
+
+            document.getElementById('sendFeedbackButton').addEventListener('click', function() {
+                var feedbackContent = document.getElementById('feedbackContent').value;
+                var taskId = document.getElementById('taskDetailsModal').getAttribute('data-task-id'); // Modal üzerindeki task ID'yi alın
+
+                if (!taskId) {
+                    console.error('Task ID is null or undefined');
+                    return;
+                }
+
+                fetch('/feedback/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        taskId: taskId,
+                        feedbackContent: feedbackContent
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    $('#feedbackModal').modal('hide');
+                    // Geri bildirimin başarılı bir şekilde gönderildiğini bildirin
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+            });
+
+            // Geri bildirimleri yükleme işlemi
+            fetch('/feedback/pending')
+                .then(response => response.json())
+                .then(feedbacks => {
+                    console.log(feedbacks); // Gelen verileri kontrol edin
+                    const taskReviewList = document.getElementById('taskReviewList');
+                    taskReviewList.innerHTML = ''; // Listeyi temizle
+
+                    feedbacks.forEach(feedback => {
+                        const li = document.createElement('li');
+                        li.className = 'list-group-item task-item';
+                        li.setAttribute('data-task-id', feedback.taskId); // Task ID'yi data attribute olarak ekleyin
+                        li.setAttribute('data-feedback-id', feedback.id);
+                        li.setAttribute('data-feedback-content', feedback.feedbackContent);
+                        li.setAttribute('data-feedback-date', feedback.dateTime);
+                        li.setAttribute('data-feedback-sender', feedback.senderUsername); // Gerekirse sender bilgilerini de ekleyin
+                        li.innerHTML = `
+                            <div>
+                                <h5 class="task-title">${feedback.taskTitle}</h5>
+                                <div class="task-details">
+                                    <span><strong>Gönderen:</strong> ${feedback.senderUsername}</span>
+                                    <span><strong>Tarih ve Saat:</strong> ${new Date(feedback.dateTime).toLocaleString()}</span>
+                                </div>
+                            </div>
+                        `;
+                        li.addEventListener('click', function() {
+                            showFeedbackDetails(this);
+                        });
+                        taskReviewList.appendChild(li);
+                    });
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+
+            document.getElementById('approveFeedbackButton').addEventListener('click', function() {
+                var feedbackId = document.getElementById('feedbackDetailsModal').getAttribute('data-feedback-id');
+
+                if (!feedbackId) {
+                    console.error('Feedback ID is null or undefined');
+                    return;
+                }
+
+                fetch(`/feedback/approve/${feedbackId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    $('#feedbackDetailsModal').modal('hide');
+                    // Geri bildirimin başarılı bir şekilde onaylandığını bildirin
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+            });
+
+        });
+
+        function showFeedbackDetails(feedbackElement) {
+            var feedbackId = feedbackElement.getAttribute('data-feedback-id');
+            var taskId = feedbackElement.getAttribute('data-task-id');
+            var feedbackContent = feedbackElement.getAttribute('data-feedback-content');
+            var feedbackSender = feedbackElement.getAttribute('data-feedback-sender');
+            var feedbackDate = feedbackElement.getAttribute('data-feedback-date');
+
+            document.getElementById('feedbackDetailsTitle').textContent = 'Geri Bildirim Detayları';
+            document.getElementById('feedbackDetailsContent').textContent = feedbackContent;
+            document.getElementById('feedbackSender').textContent = feedbackSender;
+            document.getElementById('feedbackDateTime').textContent = new Date(feedbackDate).toLocaleString();
+            
+            // Task bilgilerini almak için fetch işlemi
+            fetch(`/tasks/${taskId}`)
+                .then(response => response.json())
+                .then(task => {
+                    document.getElementById('feedbackTaskTitle').textContent = task.title;
+                    document.getElementById('feedbackTaskContent').textContent = task.icerik;
+                })
+                .catch(error => {
+                    console.error('Hata:', error);
+                });
+
+            $('#feedbackDetailsModal').modal('show');
+        }
+    </script>
+</body>
+</html>

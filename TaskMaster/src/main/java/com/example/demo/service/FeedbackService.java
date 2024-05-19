@@ -32,8 +32,9 @@ public class FeedbackService {
         feedback.setTaskId(feedbackDTO.getTaskId());
         feedback.setFeedbackContent(feedbackDTO.getFeedbackContent());
         feedback.setSenderId(task.getTaskAlanKullaniciId());
-        feedback.setReceiverId(task.getTaskVerenKullaniciId()); // Bu satırı kontrol edin
+        feedback.setReceiverId(task.getTaskVerenKullaniciId());
         feedback.setDateTime(LocalDateTime.now());
+        feedback.setOnaylandi(false); // Default olarak false ayarlanıyor
 
         return feedbackRepository.save(feedback);
     }
@@ -45,4 +46,19 @@ public class FeedbackService {
     public List<FeedbackEntity> getFeedbackByTaskId(Long taskId) {
         return feedbackRepository.findByTaskId(taskId);
     }
+
+    public List<FeedbackEntity> getPendingFeedbacksByReceiverId(Long receiverId) {
+        return feedbackRepository.findByReceiverIdAndOnaylandiFalse(receiverId);
+    }
+
+    public FeedbackEntity approveFeedback(Long feedbackId) {
+        FeedbackEntity feedback = feedbackRepository.findById(feedbackId)
+                .orElseThrow(() -> new RuntimeException("Feedback not found"));
+
+        feedback.setOnaylandi(true);
+        return feedbackRepository.save(feedback);
+    }
+    
+
+
 }

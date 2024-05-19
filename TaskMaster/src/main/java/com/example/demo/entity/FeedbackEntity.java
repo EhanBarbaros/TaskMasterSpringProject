@@ -33,6 +33,9 @@ public class FeedbackEntity {
 
     @Column(name = "task_id", nullable = false)
     private Long taskId;
+    
+    @Column(name = "onaylandi", nullable = false)
+    private boolean onaylandi = false;
 
     // Getter ve Setter metodları
     public Long getId() {
@@ -81,5 +84,13 @@ public class FeedbackEntity {
 
     public void setTaskId(Long taskId) {
         this.taskId = taskId;
+    }
+    
+    public boolean isOnaylandi() {
+        return onaylandi;
+    }
+
+    public void setOnaylandi(boolean onaylandi) {
+        this.onaylandi = onaylandi;
     }
 }

@@ -10,4 +10,5 @@ import java.util.List;
 public interface FeedbackRepository extends JpaRepository<FeedbackEntity, Long> {
     List<FeedbackEntity> findBySenderId(Long senderId);
     List<FeedbackEntity> findByTaskId(Long taskId);
+    List<FeedbackEntity> findByReceiverIdAndOnaylandiFalse(Long receiverId);
 }
