@@ -55,6 +55,10 @@ public class FeedbackController {
     @PostMapping("/approve/{feedbackId}")
     public ResponseEntity<FeedbackEntity> approveFeedback(@PathVariable Long feedbackId) {
         FeedbackEntity approvedFeedback = feedbackService.approveFeedback(feedbackId);
+        
+        // Task ID'yi feedback entity'den alarak updateTaskAndFeedbackStatus metodunu çağırıyoruz
+        taskService.updateTaskAndFeedbackStatus(approvedFeedback.getTaskId());
+        
         return ResponseEntity.ok(approvedFeedback);
     }
     

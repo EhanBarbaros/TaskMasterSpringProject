@@ -53,6 +53,24 @@ public class TaskService {
         }).collect(Collectors.toList());
     }
     
+    public List<TaskDTO> getCompletedTasksForUser(Long userId) {
+        List<TaskEntity> tasks = taskRepository.findByTaskAlanKullaniciIdAndTamamlandiTrue(userId);
+
+        return tasks.stream().map(task -> {
+            TaskDTO dto = new TaskDTO();
+            dto.setTaskId(task.getTaskId());
+            dto.setTitle(task.getTitle());
+            dto.setIcerik(task.getIcerik());
+            dto.setCreateDate(task.getCreateDate());
+
+            UsersEntity user = usersRepository.findById(task.getTaskVerenKullaniciId()).orElse(null);
+            if (user != null) {
+                dto.setTaskVerenKullaniciUsername(user.getUsername());
+            }
+
+            return dto;
+        }).collect(Collectors.toList());
+    }
     
     public List<FeedbackDTO> getPendingFeedbacksForUser(Long userId) {
         List<FeedbackEntity> feedbacks = feedbackRepository.findByReceiverIdAndOnaylandiFalse(userId);
@@ -79,7 +97,7 @@ public class TaskService {
         }).collect(Collectors.toList());
     }
     
-    /*
+    
     public void updateTaskAndFeedbackStatus(Long taskId) {
         Optional<TaskEntity> taskOpt = taskRepository.findById(taskId);
         if (taskOpt.isPresent()) {
@@ -89,10 +107,10 @@ public class TaskService {
 
             List<FeedbackEntity> feedbacks = feedbackRepository.findByTaskId(taskId);
             for (FeedbackEntity feedback : feedbacks) {
-                feedback.setApproved(true);
+                feedback.setOnaylandi(true);
                 feedbackRepository.save(feedback);
             }
         }
-    }*/
+    }
     
 }

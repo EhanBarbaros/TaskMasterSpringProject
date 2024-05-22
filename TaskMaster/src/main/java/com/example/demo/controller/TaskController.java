@@ -94,12 +94,23 @@ public class TaskController {
         return ResponseEntity.ok(activeTasks);
     }
     
-    /*
+    @GetMapping("/completed")
+    public ResponseEntity<List<TaskDTO>> getCompletedTasks(HttpSession session) {
+        UsersEntity currentUser = (UsersEntity) session.getAttribute("user");
+        if (currentUser == null) {
+            return ResponseEntity.status(401).body(null);
+        }
+
+        Long userId = currentUser.getId();
+        List<TaskDTO> completedTasks = taskService.getCompletedTasksForUser(userId);
+        return ResponseEntity.ok(completedTasks);
+    }
+    
     @PostMapping("/approve/{taskId}")
     public ResponseEntity<?> approveTask(@PathVariable Long taskId) {
         taskService.updateTaskAndFeedbackStatus(taskId);
         return ResponseEntity.ok("Görev ve geri bildirimler başarıyla onaylandı.");
-    }*/
+    }
 
    
     
