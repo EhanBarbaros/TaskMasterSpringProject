@@ -6,10 +6,7 @@
     <title>Ana Sayfa</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
-    <link rel="stylesheet" href="/stil.css">
-	
-	
-
+    <link rel="stylesheet" href="css/stil.css">
 </head>
 <body id="anasayfa">
 
@@ -29,36 +26,34 @@
             <li class="nav-item">
                 <a class="nav-link" href="/GorevAta">Görev Ata</a>
             </li>
-            <li class="nav-item">  
+            <li class="nav-item">
                 <a class="nav-link" href="/Gorevlerim">Görevlerim</a>
             </li>
             <li class="nav-item" th:if="${isTeamLeader}">
                 <a class="nav-link" data-toggle="modal" data-target="#meetingStartModal">Toplantı Başlat</a>
             </li>
-			<li class="nav-item" th:if="${isTeamLeader}">
-			              <a class="nav-link btn" data-toggle="modal" data-target="#userOperationsModal">Kullanıcı İşlemleri</a>
-			</li>
-			
+            <li class="nav-item" th:if="${isTeamLeader}">
+                <a class="nav-link btn" data-toggle="modal" data-target="#userOperationsModal">Kullanıcı İşlemleri</a>
+            </li>
         </ul>
-
-		<ul class="navbar-nav ml-auto">
-		           <li class="nav-item">
-		               <a class="nav-link" href="#" data-toggle="modal" data-target="#notificationsModal">
-		                   <i class="fas fa-bell"></i>
-		               </a>
-		           </li>
-		           <li class="nav-item dropdown">
-		               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-		                   <i class="fas fa-user"></i> <span th:text="${user.name} + ' ' + ${user.surname}">İsim ve Soyisim</span>
-		               </a>
-		               <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
-		                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModal">Profil</a>
-		                   <a class="dropdown-item" href="#">Ayarlar</a>
-		                   <div class="dropdown-divider"></div>
-		                   <a class="dropdown-item" href="GirisSayfasi.html">Çıkış Yap</a>
-		               </div>
-		           </li>
-		       </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="modal" data-target="#notificationsModal">
+                    <i class="fas fa-bell"></i>
+                </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user"></i> <span th:text="${user.name} + ' ' + ${user.surname}">İsim ve Soyisim</span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="#" data-toggle="modal" data-target="#profileModal">Profil</a>
+                    <a class="dropdown-item" href="#">Ayarlar</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="GirisSayfasi.html">Çıkış Yap</a>
+                </div>
+            </li>
+        </ul>
     </div>
 </nav>
 
@@ -109,9 +104,8 @@
         </div>
     </div>
 </div>
-  
 
-<!--Toplantı Planlama Modal Sayfa Tasarımı-->
+<!-- Toplantı Planlama Modal Sayfa Tasarımı -->
 <div class="modal fade" id="meetingStartModal" tabindex="-1" role="dialog" aria-labelledby="meetingStartModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -149,7 +143,7 @@
     </div>
 </div>
 
-<!--Kullanıcı Profil Modalı-->
+<!-- Kullanıcı Profil Modalı -->
 <div class="modal fade" id="profileModal" tabindex="-1" role="dialog" aria-labelledby="profileModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content rounded-lg">
@@ -162,11 +156,11 @@
             <div class="modal-body">
                 <!-- Profil bilgileri -->
                 <div class="text-center">
-                    <h4 th:text="${user.name} + ' ' + ${user.surname}">İsim ve Soyisim>Ertuğrul Han Barbaros</h4>
-					<p id="positionDisplay" th:text="${user.rutbesi}">Pozisyon</p>
+                    <h4 th:text="${user.name} + ' ' + ${user.surname}">İsim ve Soyisim</h4>
+                    <p id="positionDisplay" th:text="${user.rutbesi}">Pozisyon</p>
                     <div class="d-flex justify-content-between align-items-center mt-3">
                         <span>Tamamladığı Görev Sayısı</span>
-                        <span class="badge badge-primary badge-pill">25</span>
+                        <span class="badge badge-primary badge-pill" id="completedTaskCount">0</span>
                     </div>
                 </div>
             </div>
@@ -174,7 +168,7 @@
     </div>
 </div>
 
-<!--Toplantının başlatıldığına dair mesajı veren alertın modalı-->
+<!-- Toplantının başlatıldığına dair mesajı veren alertın modalı -->
 <div id="meetingPlannedToast" class="toast toplantialert" role="alert" aria-live="assertive" aria-atomic="true" data-delay="3000" style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
     <div class="toast-header">
         <strong class="mr-auto">Toplantı Planlandı</strong>
@@ -186,7 +180,6 @@
         Toplantınız başarıyla planlandı!
     </div>
 </div>
-
 
 <!-- Bildirimler Modal -->
 <div class="modal fade" id="notificationsModal" tabindex="-1" role="dialog" aria-labelledby="notificationsModalLabel" aria-hidden="true">
@@ -205,13 +198,13 @@
     </div>
 </div>
 
-
-<!-- Mevcut Kullanıcılar Listesi -->
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">Live Chat</div>
+                <div class="card-header">
+					<span id="chat-team-name" class="chat-team-name" style="font-size: 1.5em; color: #007bff;">Takım Adı</span>
+                </div>
                 <div class="card-body" id="messageArea">
                     <!-- Mesajlar burada görünecek -->
                 </div>
@@ -241,53 +234,78 @@
     </div>
 </div>
 
+<!-- Kullanıcı Bildirim Modalı -->
+<div id="notificationModal" class="modal">
+    <div class="modal-content" id="modalContent">
+        <!-- Mesaj burada gösterilecek -->
+    </div>
+</div>
 
-<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.4.0/sockjs.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
 
 <script>
-//Navbarda daha yumuşak geçişleri sağlayan kodlar
-$(document).ready(function(){
+// Navbarda daha yumuşak geçişleri sağlayan kodlar
+$(document).ready(function() {
     $(".navbar a").on('click', function(event) {
         if (this.hash !== "") {
             event.preventDefault();
             var hash = this.hash;
             $('html, body').animate({
                 scrollTop: $(hash).offset().top
-            }, 800, function(){
+            }, 800, function() {
                 window.location.hash = hash;
             });
         }
     });
-	
-	// Rütbe renklerini güncelle
-	function updateBadgeColor() {
-	    var position = $('#positionDisplay').text().trim(); // Boşlukları temizle
-	    var colorClass = ''; // Başlangıçta boş bir sınıf değişkeni
-	    switch(position) {
-	        case 'TakimLideri':
-	            colorClass = 'badge-danger';
-	            break;
-	        case 'Mühendis':
-	            colorClass = 'badge-warning';
-	            break;
-	        case 'Stajer':
-	            colorClass = 'badge-info';
-	            break;
-	        default:
-	            colorClass = 'badge-secondary';
-	    }
-	    $('#positionDisplay').addClass(colorClass);
-	}
-	
-	updateBadgeColor();
-	
+
+    // Kullanıcı profil modalı açıldığında tamamlanan görev sayısını yükle
+	$('#profileModal').on('show.bs.modal', function() {
+	        fetch('/kullanicilar/profile')
+	            .then(response => {
+	                if (!response.ok) {
+	                    throw new Error('Network response was not ok');
+	                }
+	                return response.json();
+	            })
+	            .then(data => {
+	                if (data) {
+	                    $('#completedTaskCount').text(data.completedTaskCount);
+	                    $('#user-name').text(data.user.name + ' ' + data.user.surname);
+	                    $('#positionDisplay').text(data.user.rutbesi);
+	                    updateBadgeColor();
+	                } else {
+	                    console.error('No data returned');
+	                }
+	            })
+	            .catch(error => console.error('Error fetching completed task count:', error));
+	    });
+
+    // Rütbe renklerini güncelle
+    function updateBadgeColor() {
+        var position = $('#positionDisplay').text().trim(); // Boşlukları temizle
+        var colorClass = ''; // Başlangıçta boş bir sınıf değişkeni
+        switch(position) {
+            case 'TakimLideri':
+                colorClass = 'badge-danger';
+                break;
+            case 'Mühendis':
+                colorClass = 'badge-warning';
+                break;
+            case 'Stajer':
+                colorClass = 'badge-info';
+                break;
+            default:
+                colorClass = 'badge-secondary';
+        }
+        $('#positionDisplay').removeClass().addClass('badge ' + colorClass);
+    }
 });
 
-//Toplantı Başltama Alertını gösteren kodlar
+// Toplantı Başlatma Alertını gösteren kodlar
 document.getElementById('meetingForm').addEventListener('submit', function(event) {
     event.preventDefault();
     $('#meetingPlannedToast').toast('show');
@@ -295,203 +313,255 @@ document.getElementById('meetingForm').addEventListener('submit', function(event
 });
 </script>
 
-
 <script>
-	 //Live Chat  
-	    var stompClient = null;
-	
-	    function connect() {
-	        var socket = new SockJS('/chat-websocket');
-	        stompClient = Stomp.over(socket);
-	        stompClient.connect({}, function (frame) {
-	            console.log('Connected: ' + frame);
-	            stompClient.subscribe('/topic/messages', function (message) {
-	                var messageBody = JSON.parse(message.body);
-	                showMessage(messageBody.content, messageBody.from === "${user.username}");
-	            });
-	        });
-	    }
-	
-	    function disconnect() {
-	        if (stompClient !== null) {
-	            stompClient.disconnect();
-	        }
-	        console.log("Disconnected");
-	    }
-	
-	    function sendMessage(event) {
-	        event.preventDefault();
-	        var messageContent = document.getElementById("message").value.trim();
-	        if(messageContent && stompClient) {
-	            var chatMessage = { from: "${user.username}", content: messageContent };
-	            stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
-	            document.getElementById("message").value = '';
-	        }
-	    }
-	
-	    function showMessage(message, isUserMessage) {
-	        var messageArea = document.getElementById("messageArea");
-	        var messageElement = document.createElement('div');
-	        messageElement.className = 'chat-message ' + (isUserMessage ? 'user-message' : 'other-message');
-	        messageElement.textContent = message;
-	        messageArea.appendChild(messageElement);
-	        messageArea.scrollTop = messageArea.scrollHeight;
-	    }
-	
-	    document.getElementById("messageForm").addEventListener('submit', sendMessage);
-	
-	    window.addEventListener('load', connect);
-	    window.addEventListener('beforeunload', disconnect);
-</script>
+var stompClient = null;
+var username = null;
+var teamName = null;
 
+function connect() {
+    var socket = new SockJS('/chat-websocket');
+    stompClient = Stomp.over(socket);
+    stompClient.connect({}, function(frame) {
+        console.log('Connected: ' + frame);
 
+        // Sunucudan kullanıcı adını ve takım adını al
+        fetch('/kullanicilar/current-user')
+            .then(response => response.json())
+            .then(data => {
+                username = data.username;
+                console.log('Username: ' + username);
 
-<script>
-	//Kullanıcı Ekleme ve Çıkarma
-	document.getElementById('addUserForm').addEventListener('submit', function(event) {
-	    event.preventDefault();
-	    var userName = document.getElementById('addUserName').value.trim();
-	    var takimId = new URLSearchParams(window.location.search).get('takimId');
-	    if (userName && takimId) {
-	        fetch(`/kullanicilar/add`, {
-	            method: 'POST',
-	            headers: {
-	                'Content-Type': 'application/json'
-	            },
-	            body: JSON.stringify({ userName: userName, takimId: takimId })
-	        })
-	        .then(response => response.json())
-	        .then(data => {
-	            alert(data.message);
-	            $('#userOperationsModal').modal('hide');
-	        })
-	        .catch(error => console.error('Error:', error));
-	    }
-	});
-	
-	document.getElementById('removeUserForm').addEventListener('submit', function(event) {
-	    event.preventDefault();
-	    var userName = document.getElementById('removeUserName').value.trim();
-	    var takimId = new URLSearchParams(window.location.search).get('takimId');
-	    if (userName && takimId) {
-	        fetch(`/kullanicilar/remove`, {
-	            method: 'POST',
-	            headers: {
-	                'Content-Type': 'application/json'
-	            },
-	            body: JSON.stringify({ userName: userName, takimId: takimId })
-	        })
-	        .then(response => response.json())
-	        .then(data => {
-	            alert(data.message);
-	            $('#userOperationsModal').modal('hide');
-	        })
-	        .catch(error => console.error('Error:', error));
-	    }
-	});
-</script>
+                // Kullanıcı adını HTML'de göster
+                document.getElementById("current-username").textContent = username;
+            })
+            .catch(error => console.error('Error fetching username:', error));
 
-<script>
-	document.getElementById('meetingForm').addEventListener('submit', function(event) {
-	    event.preventDefault();
-	    var meetingTime = document.getElementById('meetingTime').value;
-	    var selectInterns = document.getElementById('selectInterns').checked;
-	    var selectEngineers = document.getElementById('selectEngineers').checked;
-	    var takimId = new URLSearchParams(window.location.search).get('takimId');
-	
-	    if (meetingTime && (selectInterns || selectEngineers) && takimId) {
-	        fetch('/toplanti/planla', {
-	            method: 'POST',
-	            headers: {
-	                'Content-Type': 'application/json'
-	            },
-	            body: JSON.stringify({ meetingTime: meetingTime, selectInterns: selectInterns, selectEngineers: selectEngineers, takimId: takimId })
-	        })
-	        .then(response => response.json())
-	        .then(data => {
-	            alert(data.message);
-	            $('#meetingStartModal').modal('hide');
-	        })
-	        .catch(error => console.error('Error:', error));
-	    } else {
-	        alert('Lütfen tüm alanları doldurun ve en az bir grubu seçin.');
-	    }
-	});
+        fetch('/kullanicilar/current-team')
+            .then(response => response.json())
+            .then(data => {
+                teamName = data.teamName;
+                console.log('Team Name: ' + teamName);
+
+                // Takım adını HTML'de göster
+                document.getElementById("chat-team-name").textContent = teamName;
+            })
+            .catch(error => console.error('Error fetching team name:', error));
+
+        stompClient.subscribe('/topic/messages', function(message) {
+            var messageBody = JSON.parse(message.body);
+            var timestamp = new Date(messageBody.timestamp).toLocaleTimeString();
+            showMessage(messageBody.content, messageBody.fromUser, timestamp);
+        });
+    });
+
+    // Önceki mesajları yükle
+    $.get("/chat/messages", function(messages) {
+        messages.forEach(function(message) {
+            var timestamp = new Date(message.timestamp).toLocaleTimeString();
+            showMessage(message.content, message.fromUser, timestamp);
+        });
+    });
+}
+
+function sendMessage(event) {
+    event.preventDefault();
+    var messageContent = document.getElementById("message").value.trim();
+    if (messageContent && stompClient) {
+        var chatMessage = {
+            fromUser: username,
+            content: messageContent,
+            timestamp: new Date().toISOString()
+        };
+        stompClient.send("/app/chat", {}, JSON.stringify(chatMessage));
+        document.getElementById("message").value = '';
+    }
+}
+
+function showMessage(message, sender, time) {
+    var messageArea = document.getElementById("messageArea");
+    var messageElement = document.createElement('div');
+    messageElement.className = 'chat-message';
+
+    var senderElement = document.createElement('div');
+    senderElement.className = 'message-sender';
+    senderElement.textContent = sender;
+
+    var contentElement = document.createElement('div');
+    contentElement.className = 'message-content';
+    contentElement.textContent = message;
+
+    var timeElement = document.createElement('div');
+    timeElement.className = 'message-time';
+    timeElement.textContent = time;
+
+    messageElement.appendChild(senderElement);
+    messageElement.appendChild(contentElement);
+    messageElement.appendChild(timeElement);
+
+    messageArea.appendChild(messageElement);
+    messageArea.scrollTop = messageArea.scrollHeight;
+}
+
+document.getElementById("messageForm").addEventListener('submit', sendMessage);
+
+window.addEventListener('load', connect);
+window.addEventListener('beforeunload', disconnect);
 </script>
 
 <script>
-	window.addEventListener('load', function() {
-	    // Bildirimleri yüklemek için AJAX isteği
-	    fetch('/bildirimler')
-	        .then(response => response.json())
-	        .then(notifications => {
-	            console.log(notifications); // Gelen verileri kontrol edin
-	            const notificationsList = document.getElementById('notificationsList');
-	            notificationsList.innerHTML = ''; // Listeyi temizle
-	            notifications.forEach(notification => {
-	                const div = document.createElement('div');
-	                div.className = 'notification ' + (notification.read ? 'read' : 'unread');
-	                div.innerHTML = `
-	                    <h5>${notification.title}</h5>
-	                    <p>${notification.message}</p>
-	                    <p><strong>Gönderen:</strong> ${notification.sender}</p>
-	                    <p><strong>Tarih:</strong> ${new Date(notification.date).toLocaleDateString()}</p>
-	                `;
-	                notificationsList.appendChild(div);
-	            });
-	        })
-	        .catch(error => {
-	            console.error('Hata:', error);
-	        });
-	});
+// Kullanıcı Ekleme ve Çıkarma
+document.getElementById('addUserForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var userName = document.getElementById('addUserName').value.trim();
+    var takimId = new URLSearchParams(window.location.search).get('takimId');
+    if (userName && takimId) {
+        fetch(`/kullanicilar/add`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userName: userName, takimId: takimId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            showModal(data.message);
+            $('#userOperationsModal').modal('hide');
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
 
+document.getElementById('removeUserForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var userName = document.getElementById('removeUserName').value.trim();
+    var takimId = new URLSearchParams(window.location.search).get('takimId');
+    if (userName && takimId) {
+        fetch(`/kullanicilar/remove`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ userName: userName, takimId: takimId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            showModal(data.message);
+            $('#userOperationsModal').modal('hide');
+        })
+        .catch(error => console.error('Error:', error));
+    }
+});
+
+function showModal(message) {
+    var modal = document.getElementById('notificationModal');
+    var modalContent = document.getElementById('modalContent');
+    modalContent.innerText = message;
+    modal.style.display = "block";
+    setTimeout(function() {
+        modal.style.display = "none";
+        location.reload();
+    }, 4000);
+}
 </script>
-
 
 <script>
-	$(document).ready(function(){
-	fetch('/kullanicilar/team-users')
-	        .then(response => response.json())
-	        .then(users => {
-	            console.log(users); // Gelen verileri kontrol edin
-	            const userList = document.getElementById('userList');
-	            userList.innerHTML = ''; // Listeyi temizle
-	
-	            const teamLeader = users.filter(user => user.rutbesi === 'TakimLideri');
-	            const engineers = users.filter(user => user.rutbesi === 'Mühendis');
-	            const interns = users.filter(user => user.rutbesi === 'Stajer');
-	
-	            const allUsers = [...teamLeader, ...engineers, ...interns];
-	
-	            allUsers.forEach(user => {
-	                const li = document.createElement('li');
-	                li.className = 'list-group-item d-flex justify-content-between align-items-center';
-	                li.innerHTML = `
-	                    <span>${user.username}</span>
-	                    <span class="badge badge-pill ${getBadgeClass(user.rutbesi)}">${user.rutbesi}</span>
-	                `;
-	                userList.appendChild(li);
-	            });
-	        })
-	        .catch(error => {
-	            console.error('Hata:', error);
-	        });
-	
-	    function getBadgeClass(rutbesi) {
-	        switch(rutbesi) {
-	            case 'TakimLideri':
-	                return 'badge-danger';
-	            case 'Mühendis':
-	                return 'badge-warning';
-	            case 'Stajer':
-	                return 'badge-info';
-	            default:
-	                return 'badge-secondary';
-	        }
-	    }
-	});
+document.getElementById('meetingForm').addEventListener('submit', function(event) {
+    event.preventDefault();
+    var meetingTime = document.getElementById('meetingTime').value;
+    var selectInterns = document.getElementById('selectInterns').checked;
+    var selectEngineers = document.getElementById('selectEngineers').checked;
+    var takimId = new URLSearchParams(window.location.search).get('takimId');
+
+    if (meetingTime && (selectInterns || selectEngineers) && takimId) {
+        fetch('/toplanti/planla', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ meetingTime: meetingTime, selectInterns: selectInterns, selectEngineers: selectEngineers, takimId: takimId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+            $('#meetingStartModal').modal('hide');
+        })
+        .catch(error => console.error('Error:', error));
+    } else {
+        alert('Lütfen tüm alanları doldurun ve en az bir grubu seçin.');
+    }
+});
 </script>
 
+<script>
+window.addEventListener('load', function() {
+    // Bildirimleri yüklemek için AJAX isteği
+    fetch('/bildirimler')
+        .then(response => response.json())
+        .then(notifications => {
+            console.log(notifications); // Gelen verileri kontrol edin
+            const notificationsList = document.getElementById('notificationsList');
+            notificationsList.innerHTML = ''; // Listeyi temizle
+            notifications.forEach(notification => {
+                const div = document.createElement('div');
+                div.className = 'notification ' + (notification.read ? 'read' : 'unread');
+                div.innerHTML = `
+                    <h5>${notification.title}</h5>
+                    <p>${notification.message}</p>
+                    <p><strong>Gönderen:</strong> ${notification.sender}</p>
+                    <p><strong>Tarih:</strong> ${new Date(notification.date).toLocaleDateString()}</p>
+                `;
+                notificationsList.appendChild(div);
+            });
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+        });
+});
+</script>
+
+<script>
+$(document).ready(function(){
+    fetch('/kullanicilar/team-users')
+        .then(response => response.json())
+        .then(users => {
+            console.log(users); // Gelen verileri kontrol edin
+            const userList = document.getElementById('userList');
+            userList.innerHTML = ''; // Listeyi temizle
+
+            const teamLeader = users.filter(user => user.rutbesi === 'TakimLideri');
+            const engineers = users.filter(user => user.rutbesi === 'Mühendis');
+            const interns = users.filter(user => user.rutbesi === 'Stajer');
+
+            const allUsers = [...teamLeader, ...engineers, ...interns];
+
+            allUsers.forEach(user => {
+                const li = document.createElement('li');
+                li.className = 'list-group-item d-flex justify-content-between align-items-center';
+                li.innerHTML = `
+                    <span>${user.username}</span>
+                    <span class="badge badge-pill ${getBadgeClass(user.rutbesi)}">${user.rutbesi}</span>
+                `;
+                userList.appendChild(li);
+            });
+        })
+        .catch(error => {
+            console.error('Hata:', error);
+        });
+
+    function getBadgeClass(rutbesi) {
+        switch(rutbesi) {
+            case 'TakimLideri':
+                return 'badge-danger';
+            case 'Mühendis':
+                return 'badge-warning';
+            case 'Stajer':
+                return 'badge-info';
+            default:
+                return 'badge-secondary';
+        }
+    }
+});
+</script>
 
 </body>
 </html>

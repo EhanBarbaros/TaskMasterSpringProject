@@ -190,28 +190,37 @@ html {
 
 
 
-/*Live Chat*/
-	     .chat-message {
-	         padding: 10px;
-	         border-radius: 10px;
-	         margin-bottom: 5px;
-	         max-width: 70%;
-	     }
-	     .chat-message.user-message {
-	         background-color: #d4edda;
-	         text-align: right;
-	         margin-left: auto;
-	     }
-	     .chat-message.other-message {
-	         background-color: #f8f9fa;
-	         text-align: left;
-	         margin-right: auto;
-	     }
-	     #messageArea {
-	         height: 400px;
-	         overflow-y: scroll;
-	     }
-	     
+/* Chat için ek CSS */
+.chat-message {
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    max-width: 70%;
+    position: relative;
+    background-color: #f8f9fa;
+    text-align: left;
+    margin-right: auto;
+}
+.message-sender {
+    font-weight: bold;
+    margin-bottom: 5px;
+    padding: 2px 5px;
+    background-color: white;
+}
+.message-time {
+    font-size: 0.8em;
+    color: #6c757d;
+    margin-top: 5px;
+    padding: 2px 5px;
+    background-color: white;
+}
+#messageArea {
+    height: 400px;
+    overflow-y: scroll;
+}
+
+
+    
 	     
 	     
 	     
@@ -332,3 +341,14 @@ html {
         .task-item p {
             margin: 0;
         }
+
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        

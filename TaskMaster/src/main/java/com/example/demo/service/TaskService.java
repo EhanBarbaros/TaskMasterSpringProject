@@ -1,5 +1,6 @@
 package com.example.demo.service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dto.FeedbackDTO;
 import com.example.demo.dto.TaskDTO;
 import com.example.demo.entity.FeedbackEntity;
+import com.example.demo.entity.Notification;
 import com.example.demo.entity.TaskEntity;
 import com.example.demo.entity.UsersEntity;
 import com.example.demo.repository.FeedbackRepository;
+import com.example.demo.repository.NotificationRepository;
 import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.UsersRepository;
 
@@ -27,6 +30,9 @@ public class TaskService {
 	
 	@Autowired
     private FeedbackRepository feedbackRepository;
+	
+    @Autowired
+    private NotificationRepository notificationRepository;
 	
     
 
@@ -109,6 +115,16 @@ public class TaskService {
             for (FeedbackEntity feedback : feedbacks) {
                 feedback.setOnaylandi(true);
                 feedbackRepository.save(feedback);
+
+                // Görev veren kişiye bildirim gönder
+                Notification feedbackNotification = new Notification();
+                feedbackNotification.setTitle("Görev Onaylandı");
+                feedbackNotification.setMessage("Bir görev onayladınız: " + task.getTitle());
+                feedbackNotification.setUser(usersRepository.findById(task.getTaskVerenKullaniciId()).orElse(null));
+                feedbackNotification.setRead(false);
+                feedbackNotification.setDate(new Date());
+                notificationRepository.save(feedbackNotification);
+
             }
         }
     }

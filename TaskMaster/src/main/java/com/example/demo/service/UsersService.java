@@ -2,7 +2,11 @@ package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.example.demo.entity.TakimEntity;
 import com.example.demo.entity.UsersEntity;
+import com.example.demo.repository.TakimRepository;
+import com.example.demo.repository.TaskRepository;
 import com.example.demo.repository.UsersRepository;
 
 import java.util.ArrayList;
@@ -14,6 +18,11 @@ public class UsersService {
 
     @Autowired
     private UsersRepository usersRepository;
+    @Autowired
+    private TaskRepository taskRepository;
+    
+    @Autowired
+    private TakimRepository teamRepository;
 
     public UsersEntity saveOrUpdateUser(UsersEntity user) {
         return usersRepository.save(user);
@@ -25,6 +34,11 @@ public class UsersService {
 
     public Optional<UsersEntity> findByUsername(String username) {
         return usersRepository.findByUsername(username);
+    }
+    
+    public String getTeamNameById(Long teamId) {
+        TakimEntity team = teamRepository.findById(teamId).orElse(null);
+        return (team != null) ? team.getTakimAdi() : "Takım Bulunamadı";
     }
 
     public UsersEntity findById(Long id) {
@@ -55,6 +69,11 @@ public class UsersService {
 
         return usersRepository.findByTakimIdAndRoles(takimId, roles);
     }
+    
+    public int getCompletedTaskCount(Long userId) {
+        return taskRepository.countByTaskAlanKullaniciIdAndTamamlandiTrue(userId);
+    }
+
     
     
     	

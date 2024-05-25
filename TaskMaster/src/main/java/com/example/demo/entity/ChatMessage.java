@@ -1,23 +1,40 @@
 package com.example.demo.entity;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "chat_messages")
 public class ChatMessage {
-    private String from;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String fromUser;
     private String content;
+    private LocalDateTime timestamp;
 
-    public ChatMessage() {
+    // Getter ve Setter'lar
+
+    public Long getId() {
+        return id;
     }
 
-    public ChatMessage(String from, String content) {
-        this.from = from;
-        this.content = content;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public String getFrom() {
-        return from;
+    public String getFromUser() {
+        return fromUser;
     }
 
-    public void setFrom(String from) {
-        this.from = from;
+    public void setFromUser(String fromUser) {
+        this.fromUser = fromUser;
     }
 
     public String getContent() {
@@ -26,5 +43,13 @@ public class ChatMessage {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public LocalDateTime getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(LocalDateTime timestamp) {
+        this.timestamp = timestamp;
     }
 }

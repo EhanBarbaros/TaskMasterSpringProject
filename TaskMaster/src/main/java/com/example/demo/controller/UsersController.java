@@ -1,10 +1,13 @@
 package com.example.demo.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +29,9 @@ public class UsersController {
     @Autowired
     private NotificationService notificationService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+    
     @PostMapping
     public ResponseEntity<UsersEntity> createUser(@RequestBody UsersEntity user) {
         UsersEntity createdUser = usersService.saveOrUpdateUser(user);
@@ -75,6 +81,7 @@ public class UsersController {
                 request.getTakimId(),
                 user
             ));
+            messagingTemplate.convertAndSend("/topic/user-notifications", user.getUsername() + " kullanıcısı eklendi.");
             return ResponseEntity.ok().body("Kullanıcı başarıyla takıma eklendi.");
         } else {
             return ResponseEntity.badRequest().body("Kullanıcı zaten bir takıma kayıtlı.");
@@ -103,6 +110,7 @@ public class UsersController {
                 request.getTakimId(),
                 user
             ));
+            messagingTemplate.convertAndSend("/topic/user-notifications", user.getUsername() + " kullanıcısı çıkarıldı.");
             return ResponseEntity.ok().body("Kullanıcı başarıyla takımdan çıkarıldı.");
         } else {
             return ResponseEntity.badRequest().body("Kullanıcı bu takımın üyesi değil.");
@@ -118,4 +126,50 @@ public class UsersController {
         }
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
     }
+    
+    
+    @GetMapping("/current-user")
+    public ResponseEntity<Map<String, String>> getCurrentUser(HttpSession session) {
+        UsersEntity currentUser = (UsersEntity) session.getAttribute("user");
+        if (currentUser != null) {
+            Map<String, String> response = new HashMap<>();
+            response.put("username", currentUser.getUsername());
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+    
+    @GetMapping("/current-team")
+    public ResponseEntity<Map<String, String>> getCurrentTeam(HttpSession session) {
+        UsersEntity currentUser = (UsersEntity) session.getAttribute("user");
+        if (currentUser != null) {
+            String teamName = usersService.getTeamNameById(currentUser.getTakimId());
+            Map<String, String> response = new HashMap<>();
+            response.put("teamName", teamName);
+            return ResponseEntity.ok(response);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
+        }
+    }
+
+    
+    @GetMapping("/profile")
+    @ResponseBody
+    public Map<String, Object> getUserProfile(HttpSession session) {
+        UsersEntity user = (UsersEntity) session.getAttribute("user");
+        if (user == null) {
+            return null; // veya uygun bir hata yanıtı dönebilirsiniz
+        }
+        int completedTaskCount = usersService.getCompletedTaskCount(user.getId());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("user", user);
+        response.put("completedTaskCount", completedTaskCount);
+
+        return response;
+    }
+
+
+    
 }
