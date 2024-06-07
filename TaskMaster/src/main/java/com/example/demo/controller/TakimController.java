@@ -3,6 +3,7 @@ package com.example.demo.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.demo.entity.TakimEntity;
@@ -12,6 +13,7 @@ import com.example.demo.service.UsersService;
 
 import jakarta.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -24,6 +26,13 @@ public class TakimController {
 
     @Autowired
     private UsersService usersService;
+    
+    @GetMapping("/TakimListesi.html")
+    public String showTeamList(Model model) {
+        List<TakimEntity> teams = takimService.findAllTakimlar();
+        model.addAttribute("teams", teams);
+        return "TakimListesi";
+    }
 
     @PostMapping("/createTeam")
     public ResponseEntity<?> createTeam(@RequestParam("teamName") String teamName, @RequestParam("userId") Long userId, HttpSession session) {

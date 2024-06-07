@@ -24,7 +24,7 @@ public class LoginController {
     public String loginUser(@RequestParam String username, @RequestParam String password, Model model, HttpSession session) {
         UsersEntity user = usersService.findByUsernameAndPassword(username, password);
         if (user != null) {
-            session.setAttribute("user", user);  // Kullanıcıyı session'a kaydet
+            session.setAttribute("user", user); 
             return "redirect:/TakimGirisi";
         } else {
             model.addAttribute("error", "Kullanıcı adı veya şifre hatalı!");

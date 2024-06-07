@@ -292,34 +292,31 @@
             });
 
 			document.getElementById('sendFeedbackButton').addEventListener('click', function() {
-			                var feedbackContent = document.getElementById('feedbackContent').value;
-			                var taskId = document.getElementById('taskDetailsModal').getAttribute('data-task-id'); // Modal üzerindeki task ID'yi alın
+			    var feedbackContent = document.getElementById('feedbackContent').value;
+			    var taskId = document.getElementById('taskDetailsModal').getAttribute('data-task-id'); // Modal üzerindeki task ID'yi alın
 			
-			                if (!taskId) {
-			                    console.error('Task ID is null or undefined');
-			                    return;
-			                }
+			    if (!taskId) {
+			        console.error('Task ID is null or undefined');
+			        return;
+			    }
 			
-			                fetch('/feedback/submit', {
-			                    method: 'POST',
-			                    headers: {
-			                        'Content-Type': 'application/json'
-			                    },
-			                    body: JSON.stringify({
-			                        taskId: taskId,
-			                        feedbackContent: feedbackContent
-			                    })
-			                })
-			                .then(response => response.json())
-			                .then(data => {
-			                    console.log(data);
-			                    $('#feedbackModal').modal('hide');
-			                    // Geri bildirimin başarılı bir şekilde gönderildiğini bildirin
-			                })
-			                .catch(error => {
-			                    console.error('Hata:', error);
-			                });
-			            });
+			    fetch('/feedback/submit', {
+			        method: 'POST',
+			        headers: {
+			            'Content-Type': 'application/json'
+			        },
+			        body: JSON.stringify({
+			            taskId: taskId,
+			            feedbackContent: feedbackContent
+			        })
+			    })
+			    .then(response => response.text())  // Dönüş tipi `text` olarak güncellendi
+			    .then(data => {
+			        $('#feedbackModal').modal('hide');
+			        showModal('Geri bildirim başarıyla gönderildi.');
+			    })
+			    .catch(error => console.error('Hata:', error));
+			});
 
 
             // Geri bildirimleri yükleme işlemi
@@ -361,29 +358,26 @@
 				
 				
 				document.getElementById('approveFeedbackButton').addEventListener('click', function() {
-				                var feedbackId = document.getElementById('feedbackDetailsModal').getAttribute('data-feedback-id');
+				    var feedbackId = document.getElementById('feedbackDetailsModal').getAttribute('data-feedback-id');
 				
-				                if (!feedbackId) {
-				                    console.error('Feedback ID is null or undefined');
-				                    return;
-				                }
+				    if (!feedbackId) {
+				        console.error('Feedback ID is null or undefined');
+				        return;
+				    }
 				
-				                fetch(`/feedback/approve/${feedbackId}`, {
-				                    method: 'POST',
-				                    headers: {
-				                        'Content-Type': 'application/json'
-				                    }
-				                })
-				                .then(response => response.json())
-				                .then(data => {
-				                    console.log(data);
-				                    $('#feedbackDetailsModal').modal('hide');
-				                    // Geri bildirimin başarılı bir şekilde onaylandığını bildirin
-				                })
-				                .catch(error => {
-				                    console.error('Hata:', error);
-				                });
-				            });
+				    fetch(`/feedback/approve/${feedbackId}`, {
+				        method: 'POST',
+				        headers: {
+				            'Content-Type': 'application/json'
+				        }
+				    })
+				    .then(response => response.text())  // Dönüş tipi `text` olarak güncellendi
+				    .then(data => {
+				        $('#feedbackDetailsModal').modal('hide');
+				        showModal('Geri bildirim başarıyla onaylandı.');
+				    })
+				    .catch(error => console.error('Hata:', error));
+				});
 				
 				        });
 
@@ -415,6 +409,17 @@
 
             $('#feedbackDetailsModal').modal('show');
         }
+		
+		function showModal(message) {
+		    var modal = document.getElementById('notificationModal');
+		    var modalContent = document.getElementById('modalContent');
+		    modalContent.innerText = message;
+		    modal.style.display = "block";
+		    setTimeout(function() {
+		        modal.style.display = "none";
+		        window.location.href = "/AnaSayfa";
+		    }, 4000);
+		}
     </script>
 </body>
 </html>

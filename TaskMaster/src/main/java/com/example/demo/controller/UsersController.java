@@ -7,7 +7,6 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,9 +27,6 @@ public class UsersController {
     
     @Autowired
     private NotificationService notificationService;
-
-    @Autowired
-    private SimpMessagingTemplate messagingTemplate;
     
     @PostMapping
     public ResponseEntity<UsersEntity> createUser(@RequestBody UsersEntity user) {
@@ -81,8 +77,7 @@ public class UsersController {
                 request.getTakimId(),
                 user
             ));
-            messagingTemplate.convertAndSend("/topic/user-notifications", user.getUsername() + " kullanıcısı eklendi.");
-            return ResponseEntity.ok().body("Kullanıcı başarıyla takıma eklendi.");
+            return ResponseEntity.ok("Kullanıcı başarıyla takıma eklendi.");
         } else {
             return ResponseEntity.badRequest().body("Kullanıcı zaten bir takıma kayıtlı.");
         }
@@ -110,12 +105,13 @@ public class UsersController {
                 request.getTakimId(),
                 user
             ));
-            messagingTemplate.convertAndSend("/topic/user-notifications", user.getUsername() + " kullanıcısı çıkarıldı.");
-            return ResponseEntity.ok().body("Kullanıcı başarıyla takımdan çıkarıldı.");
+            return ResponseEntity.ok("Kullanıcı başarıyla takımdan çıkarıldı.");
         } else {
             return ResponseEntity.badRequest().body("Kullanıcı bu takımın üyesi değil.");
         }
     }
+
+
     
     @GetMapping("/team")
     public ResponseEntity<List<UsersEntity>> getTeamMembers(HttpSession session) {
